@@ -1,6 +1,6 @@
 # Student CRUD Application
 
-A full-stack Student Information Management System built with **Spring Boot** (Java) on the backend and **React** with **Vite** and **Tailwind CSS** on the frontend.
+A full-stack Student Information Management System built with **Spring Boot** (Java) on the backend and **React** with **Vite** and **Tailwind CSS** on the frontend, ready for one-click deployment on **Render.com**.
 
 ---
 
@@ -10,54 +10,41 @@ A full-stack Student Information Management System built with **Spring Boot** (J
   * Java 21 / Spring Boot 3
   * Spring Data JPA / Hibernate
   * PostgreSQL Database
-  * Maven
+  * Multi-stage Docker build
 * **Frontend**:
   * React 19
   * Vite
   * Tailwind CSS (v4)
   * Lucide React Icons
-* **UX Design**:
-  * Clean two-column responsive layout
-  * **Strictly No Modals**: Embedded registration & edit card, inline row-level delete confirmations, and floating feedback toasts.
+* **Deployment**:
+  * Infrastructure as Code via `render.yaml` (Render Blueprint)
+  * PostgreSQL database (`student-db`)
+  * Containerized web service (`student-backend`)
+  * Static site hosting with rewrite rules (`student-frontend`)
 
 ---
 
-## 📁 Project Structure
+## ☁️ Deployment on Render.com (Blueprint)
 
-```text
-STUDENT-CRUD/
-├── PLAN.md                     # Implementation plan & architecture notes
-├── student/                    # Spring Boot backend
-│   ├── pom.xml
-│   └── src/
-│       └── main/
-│           ├── java/com/velasco/student/
-│           │   ├── Student.java               # Entity
-│           │   ├── StudentRepository.java     # JPA Repository
-│           │   ├── StudentController.java     # REST Controller (/velasco/students)
-│           │   └── StudentApplication.java    # Main Entry
-│           └── resources/
-│               └── application.properties     # DB & Hibernate config
-└── frontend/                   # Vite + React frontend
-    ├── vite.config.js          # Reverse proxy to http://localhost:8080
-    └── src/
-        ├── App.jsx             # Main dashboard
-        ├── services/
-        │   └── studentService.js # REST API client
-        └── components/
-            ├── Header.jsx
-            ├── StudentFormPanel.jsx # Embedded Add/Edit form
-            ├── StudentTable.jsx     # Directory with search & filters
-            ├── StudentRow.jsx       # Row with inline delete confirmation
-            └── ToastNotification.jsx # Feedback alerts
-```
+This repository includes a [render.yaml](render.yaml) blueprint specification for automated full-stack deployment.
+
+### Steps to Deploy:
+1. Push your latest code to your GitHub repository ([`https://github.com/rnvelascoua/student_crud`](https://github.com/rnvelascoua/student_crud)).
+2. Log in to [Render.com Dashboard](https://dashboard.render.com).
+3. Click **New +** in the top right and select **Blueprint**.
+4. Connect and select your **`student_crud`** repository.
+5. Render will automatically parse `render.yaml` and propose provisioning:
+   * **Database**: `student-db` (Free PostgreSQL instance)
+   * **Backend**: `student-backend` (Docker container running Spring Boot on port 8080)
+   * **Frontend**: `student-frontend` (Static site with SPA routing and API connection)
+6. Click **Apply**. Render will automatically build the database, compile the Docker container, build the frontend, and link all environment variables.
 
 ---
 
-## 🛠️ Getting Started
+## 💻 Local Development Setup
 
 ### 1. Prerequisites
-* **Node.js** (v18+ recommended)
+* **Node.js** (v18+)
 * **Java JDK** (v17 or v21)
 * **PostgreSQL** running locally with database `db_student`
 
@@ -74,4 +61,4 @@ cd frontend
 npm install
 npm run dev
 ```
-*Access the UI in your browser at `http://localhost:3000` (or the port specified by Vite).*
+*Access the UI in your browser at `http://localhost:3000`.*
